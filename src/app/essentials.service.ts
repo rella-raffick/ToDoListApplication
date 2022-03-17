@@ -5,6 +5,8 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
   providedIn: 'root'
 })
 export class EssentialsService {
+
+  
   
   allTask:Subject<number> = new BehaviorSubject<number>(0);
   inCompTask:Subject<number> = new BehaviorSubject<number>(0);
@@ -17,7 +19,8 @@ export class EssentialsService {
   }
 
    addTaskToDisplay(mission: string):Observable<any>[]{
-    this.theList.push({taskName:mission,status:'Pending'});
+    let creation = new Date();
+    this.theList.push({taskName:mission,status:'Pending',creationTime:creation});
     this.count();
     return this.theList;
   }

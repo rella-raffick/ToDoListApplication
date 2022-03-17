@@ -1,19 +1,22 @@
 <div class="container">
     <div class="row">
-        <div class="col-6">
+        
+        <div class="col-6 p-2">
+            <h2>Incomplete Missions</h2>
             <ul *ngFor="let tl of theList;let i=index;" class="list-group">
-                <li *ngIf="tl.status=='Pending'" class="list-group-item d-flex justify-content-between align-items-center">
-                    {{tl.taskName}}
-                    <button (click)="finishTask(i)" type="button" class="badge btn btn-primary btn-sm">Mark
+                <li *ngIf="tl.status=='Pending'" class="list-group-item d-flex p-3 justify-content-between align-items-center">
+                    {{tl.taskName}} ({{tl.creationTime | date :'short'}})
+                    <button (click)="finishTask(i)" type="button" class="btn btn-outline-success btn-sm">✔️ Mark
                         Complete</button>
                 </li>
             </ul>
         </div>
-        <div class="col-6">
+        <div class="col-6 p-2">
+            <h2>Completed Missions</h2>
             <ul *ngFor="let c of theList;let j=index;" class="list-group">
-                <li *ngIf="c.status=='Completed'" class="list-group-item d-flex justify-content-between align-items-center">
+                <li *ngIf="c.status=='Completed'" class="list-group-item p-3 d-flex justify-content-between align-items-center">
                     {{c.taskName}}
-                    <button (click)="removeTask(j)" type="button" class="badge btn btn-danger btn-sm">Remove</button>
+                    <button (click)="removeTask(j)" type="button" class="btn btn-outline-danger btn-sm">❌ Remove</button>
                 </li>
             </ul>
         </div>
