@@ -13,13 +13,13 @@ export class AppComponent {
   theList: any[]=[];
 
   constructor(private serv : EssentialsService){
-
   }
 
+
+  //Adding Missions to the List - redirects the control to addTaskToDisplay() method in the services
   addingToTheList(mission:any){
     if(mission!=''){
-        let data=this.serv.addTaskToDisplay(mission);
-        this.theList=data;
+        this.serv.addTaskToDisplay(mission).subscribe();
     }
   }
 
