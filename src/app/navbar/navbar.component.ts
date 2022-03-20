@@ -9,22 +9,35 @@ import { Component, OnInit } from '@angular/core';
 export class NavbarComponent implements OnInit {
 
   constructor(private serv : EssentialsService) {
-    this.getCount();
+    this.getMethod();
    }
 
   allCount:number=0;
   incompCount:number=0;
   compCount:number=0;
-  getCount() {
-    this.serv.allTask.subscribe(
-       content=>this.allCount=content
-     )
-     this.serv.inCompTask.subscribe(
-       content=>this.incompCount=content
-     )
-     this.serv.compTask.subscribe(
-       content=>this.compCount=content
-     )
+
+  list: any[]=[];
+
+    getMethod() {
+    this.serv.list.subscribe(data=>{
+      this.list=data;
+      console.log(this.list);
+      this.getCount(this.list);
+    })
+  }
+
+  getCount(theList:any[]) {
+    this.allCount=theList.length;
+    this.incompCount=0;
+    this.compCount=0;
+    for(let i=0;i<theList.length;i++){
+      if(theList[i].status=='Completed'){
+        this.compCount=this.compCount+1;
+      }
+      if(theList[i].status=='Pending'){
+        this.incompCount=this.incompCount+1;
+      }
+    }
   }
 
   ngOnInit(): void {

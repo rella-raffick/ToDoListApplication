@@ -1,33 +1,60 @@
+import { Model } from './../../model';
+import { BehaviorSubject, switchMap } from 'rxjs';
+import {Json } from './../interJson';
 import { EssentialsService } from './../essentials.service';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input} from '@angular/core';
 
 @Component({
   selector: 'app-tasklist',
   templateUrl: './tasklist.component.html',
   styleUrls: ['./tasklist.component.scss']
 })
-export class TasklistComponent implements OnInit {
+export class TasklistComponent {
 
   constructor(private serv : EssentialsService) { 
-    
+    this.getMethod();
   }
-
   @Input('list') theList:any[]=[];
+
+  addingToTheList(mission:any,category:any){
+    if(mission!=''){
+      this.serv.addTaskToDisplay(mission,category);   
+      this.getMethod(); 
+
+    }
+  }
+
+   getMethod() {
+    this.serv.list.subscribe(data=>{
+      // this.calculateCount(data)
+      this.theList=data;
+     
+    })
+  }
+   //Adding Missions to the List - redirects the control to addTaskToDisplay() method in the services
+
   
-  //Marking the mission finished - carrying the control to finishedTask() method in Service
-  finishTask(index:number){
-    let mission =this.serv.finishedTask(index);
-    this.theList=mission;
+  // //Marking the mission finished - carrying the control to finishedTask() method in Service
+  // finishTask(index:any){
+  //   this.serv.finishedTask(index);
+  //  }
+
+   finishTask(id:any){
+    this.serv.finishedTask(id);
   }
 
-  //Removing the mission - carrying the control to removeTheTask() method in Service
-  removeTask(index:number){
-    let mission=this.serv.removeTheTask(index);
-    this.theList=mission;
+    removeTask(id:any){
+    this.serv.removeTheTask(id);
   }
 
-  ngOnInit(): void {
-    this.serv.getJson().subscribe(data=>console.log(data));
-  }
+  userModel = new Model('','');
+
+  // //Removing the mission - carrying the control to removeTheTask() method in Service
+  // (index:number){
+  //   let mission=this.serv.(index);
+  //   this.theList=mission;
+  // }
+
+ 
 
 }

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { EssentialsService } from './essentials.service';
 
 @Component({
@@ -13,14 +14,8 @@ export class AppComponent {
   theList: any[]=[];
 
   constructor(private serv : EssentialsService){
-  }
 
 
-  //Adding Missions to the List - redirects the control to addTaskToDisplay() method in the services
-  addingToTheList(mission:any){
-    if(mission!=''){
-        this.serv.addTaskToDisplay(mission).subscribe();
-    }
   }
 
 
