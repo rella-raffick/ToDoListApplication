@@ -26,9 +26,11 @@ export class EssentialsService {
     // this.count();
     this.getMethod();
   }
-
+   jsonRef  = new Subject<Json[]>();
+  readonly jsonRef$ = this.jsonRef.asObservable();
   //Adds the Mission to the List and pushes the taskname, status & creation time.
   addTaskToDisplay(mission: string,category:string){
+  
     let creation = new Date();
     this.theList.taskName= mission; 
     this.theList.taskCategory = category; 

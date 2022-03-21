@@ -1,8 +1,6 @@
-import { Model } from './../../model';
-import { BehaviorSubject, switchMap } from 'rxjs';
-import {Json } from './../interJson';
 import { EssentialsService } from './../essentials.service';
 import { Component, Input} from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
 
 @Component({
   selector: 'app-tasklist',
@@ -10,27 +8,23 @@ import { Component, Input} from '@angular/core';
   styleUrls: ['./tasklist.component.scss']
 })
 export class TasklistComponent {
+    theList:any[]=[];
+    cat:any = "";
 
-  constructor(private serv : EssentialsService) { 
-    this.getMethod();
-  }
-  @Input('list') theList:any[]=[];
-
-  addingToTheList(mission:any,category:any){
-    if(mission!=''){
-      this.serv.addTaskToDisplay(mission,category);   
-      this.getMethod(); 
-
-    }
-  }
-
-   getMethod() {
-    this.serv.list.subscribe(data=>{
-      // this.calculateCount(data)
-      this.theList=data;
-     
+  constructor(private serv : EssentialsService, private route: ActivatedRoute) { 
+      this.getMethod();
+      this.route.paramMap.subscribe((Params) => {
+      this.cat = Params.get('id');
     })
   }
+
+  getMethod(){
+     this.serv.list.subscribe(data=>{
+      this.theList=data;
+    })
+  }
+  
+
    //Adding Missions to the List - redirects the control to addTaskToDisplay() method in the services
 
   
@@ -47,7 +41,7 @@ export class TasklistComponent {
     this.serv.removeTheTask(id);
   }
 
-  userModel = new Model('','');
+  
 
   // //Removing the mission - carrying the control to removeTheTask() method in Service
   // (index:number){

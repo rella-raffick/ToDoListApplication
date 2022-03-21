@@ -1,48 +1,36 @@
-
-<div class="p-3">
-    <form #theForm = "ngForm">
-
-        <div class="row" style="margin-left: 1%;">
-            <div class="col-5">
-                <label for="mission" class="pb-2">Enter a Task</label>
-                <input type="text" name="mission" [(ngModel)]="userModel.taskName" required [class.is-invalid]="mission.invalid && mission.touched" class="form-control p-3" id="mission" #mission="ngModel">
-            </div>
-            <div class="col-5">
-                <label for="category"  class="pb-2">Choose a Category</label>
-                <select class="custom-select form-control p-3" [(ngModel)]="userModel.category" [class.is-invalid]="category.invalid && category.touched" required name="category" id="category" #category="ngModel">
-                    <option>Personal</option>
-                    <option>Work</option>
-                    <option>Others</option>
-                </select>
-            </div>
-            <div class="col-2">
-                <button (click)="addingToTheList(mission.value,category.value)"  [disabled]="theForm.form.invalid"class="btn btn-outline-info btn-block p-3" style="margin-top: 2rem;" type="button" id="button-addon2">➕
-                    Add Task to the List</button>
-            </div>
-        </div>
-    </form>
-
+<div class="main-content">
+    <router-outlet></router-outlet>
 </div>
-<div class="container">
-    <div class="row">
-        <div class="col-6 p-2">
+
+    <div class="row m-4">
+        <div class="col-6">
             <h2>Incomplete Missions</h2>
             <ul *ngFor="let tl of theList;let i=index;" class="list-group">
-                <li *ngIf="tl.status=='Pending'" class="list-group-item d-flex p-3 justify-content-between align-items-center">
-                    {{tl.taskName}} -- {{tl.taskCategory}} ({{tl.creationTime | date :'short'}})
+                <li *ngIf="tl.status=='Pending' && (tl.taskCategory == cat)" class="list-group-item d-flex p-3 justify-content-between align-items-center">
+                   <div>
+                    <p>{{tl.taskName}}</p>
+                    <p>{{tl.creationTime | date :'short'}}</p>
+                    <p class="badge bg-info text-light">{{tl.taskCategory}}</p>
+                   </div>
+                   
+                     
                     <button (click)="finishTask(tl.id)" type="button" class="btn btn-outline-success btn-sm">✔️ Mark Complete</button>
                 </li>
             </ul>
         </div>
-        <div class="col-6 p-2">
+        <div class="col-6">
             <h2>Completed Missions</h2>
             <ul *ngFor="let c of theList;let j=index;" class="list-group">
-                <li *ngIf="c.status=='Completed'" class="list-group-item p-3 d-flex justify-content-between align-items-center">
-                    {{c.taskName}} -- {{c.taskCategory}} ({{c.creationTime | date :'short'}})
+                <li *ngIf="c.status=='Completed' && (c.taskCategory == cat)" class="list-group-item p-3 d-flex justify-content-between align-items-center">
+                <div>
+                    <p>{{c.taskName}}</p>
+                    <p>{{c.creationTime | date :'short'}}</p>
+                    <p class="badge bg-info text-light">{{c.taskCategory}}</p>
+                </div>
                     <button (click)="removeTask(c.id)" type="button" class="btn btn-outline-danger btn-sm">❌ Remove</button>
                 </li>
             </ul>
         </div>
     </div>
 
-</div>
+
